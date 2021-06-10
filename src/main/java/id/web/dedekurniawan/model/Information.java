@@ -1,4 +1,6 @@
-package id.web.dedekurniawan;
+package id.web.dedekurniawan.model;
+
+import id.web.dedekurniawan.exception.InformationException;
 
 import java.util.HashMap;
 import java.util.Map;

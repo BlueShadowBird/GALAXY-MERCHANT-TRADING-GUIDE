@@ -1,4 +1,4 @@
-package id.web.dedekurniawan;
+package id.web.dedekurniawan.model;
 
 public enum InformationType {
     ENTITY,
