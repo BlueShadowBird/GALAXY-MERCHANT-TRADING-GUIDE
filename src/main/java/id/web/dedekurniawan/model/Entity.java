@@ -1,5 +1,9 @@
-package id.web.dedekurniawan;
+package id.web.dedekurniawan.model;
 
+
+import id.web.dedekurniawan.exception.InformationException;
+import id.web.dedekurniawan.exception.RomanConvertException;
+import id.web.dedekurniawan.utility.RomanNumeralConverter;
 
 import java.util.Arrays;
 
@@ -38,12 +42,12 @@ public class Entity extends Informations{
         String[] splitedExpression = expression.split(" is ");
 
         //get Total Credits
-        double totalCredits = Double.valueOf(splitedExpression[1].replace("Credits", "").trim());
+        double totalCredits = Double.parseDouble(splitedExpression[1].replace("Credits", "").trim());
 
         StringBuilder RomanSymbol = new StringBuilder();
 
         if(splitedExpression.length<2)
-            throw new InformationException("No Aliases given");
+            throw new InformationException("Invalid Expression");
 
         //String before is, contain Entity and romans symbols(alias)
         String[] leftExpressionSplited = splitedExpression[0].trim().split(" ");
@@ -52,10 +56,15 @@ public class Entity extends Informations{
         for (String s : leftExpressionSplited) {
             String symbol = (String) aliases.getValue(s);
             if (symbol == null)
-                throw new InformationException("Unknown Alias: " + s);
+                throw new InformationException("Unknown Alias", s);
             RomanSymbol.append(symbol);
         }
-        double totalEntities = RomanNumeralConverter.convert(RomanSymbol.toString());
+        double totalEntities;
+        try {
+            totalEntities = RomanNumeralConverter.convert(RomanSymbol.toString());
+        } catch (RomanConvertException e) {
+            throw new InformationException(e.getCause());
+        }
         addInformation(entityName, totalCredits/totalEntities);
     }
 

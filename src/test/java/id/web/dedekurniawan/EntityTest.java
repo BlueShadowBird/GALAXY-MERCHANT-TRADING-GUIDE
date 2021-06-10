@@ -1,5 +1,8 @@
 package id.web.dedekurniawan;
 
+import id.web.dedekurniawan.exception.InformationException;
+import id.web.dedekurniawan.model.Aliases;
+import id.web.dedekurniawan.model.Entity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
