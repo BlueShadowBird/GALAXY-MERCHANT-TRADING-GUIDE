@@ -18,6 +18,11 @@ abstract class Informations{
         return map.get(name);
     }
 
+    @Override
+    public String toString() {
+        return map.toString();
+    }
+
     abstract public void addInformation(String expression) throws InformationException;
 
     abstract public String getInformationType();
