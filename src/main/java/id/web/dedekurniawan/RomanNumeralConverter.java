@@ -17,7 +17,6 @@ public class RomanNumeralConverter {
     }
 
     public static int convert(String romanNumber){
-        System.out.println(romanNumber);
         int result = 0;
         byte[] bytes = romanNumber.getBytes();
         int bytesLength = bytes.length;
