@@ -26,9 +26,7 @@ public class AliasesTest {
         Aliases aliases = new Aliases();
 
         Assert.assertThrows(InformationException.class, () -> aliases.addInformation("glob I"));
-
         Assert.assertThrows(InformationException.class, () -> aliases.addInformation("pish were X"));
-
         Assert.assertThrows(InformationException.class, () -> aliases.addInformation("L"));
     }
 }
