@@ -1,6 +1,6 @@
 package id.web.dedekurniawan.utility;
 
-import id.web.dedekurniawan.exception.RomanConvertException;
+import id.web.dedekurniawan.exception.NumeralConvertionException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 1.0
  * @since   2021-06-10
  */
-public class RomanNumeralConverter {
+public class RomanNumeralConverter implements NumeralConverter {
     private static final Map<Character, Integer> romanMap;
     static {
         romanMap = new HashMap<>();
@@ -34,16 +34,21 @@ public class RomanNumeralConverter {
      * @version 1.0
      * @since   2021-06-10
      */
-    public static int convert(String romanNumber) throws RomanConvertException {
+    public int convert(String romanNumber) throws NumeralConvertionException {
         int result = 0;
         byte[] bytes = romanNumber.getBytes();
         int bytesLength = bytes.length;
         int repetition = 1;
         byte lastChar = 0;
+        int lastSimbolValue = 99999999;
         for(int i=0;i<bytesLength;i++){
+            if(lastSimbolValue<bytes[i])
+                throw new NumeralConvertionException("Invalid Roman Number Sequence");
+            lastSimbolValue = bytes[i];
+
             if(lastChar==bytes[i]){
                 if(++repetition>3)//max repeated 3, no more repetition allowed
-                    throw new RomanConvertException("Max Symbol Repetation exceeded");
+                    throw new NumeralConvertionException("Max Symbol Repetation exceeded");
             }else{
                 lastChar=bytes[i];
                 repetition = 1;
@@ -53,15 +58,11 @@ public class RomanNumeralConverter {
                     result += romanMap.get((char) bytes[i + 1]) - romanMap.get((char) bytes[i]);
                     i++;
                 }else if('X'==bytes[i] && ('L'==bytes[i+1] || 'C'==bytes[i+1])){
-
                         result += romanMap.get((char) bytes[i + 1]) - romanMap.get((char) bytes[i]);
                         i++;
-
                 }else if('C'==bytes[i] && ('D'==bytes[i+1] || 'M'==bytes[i+1])){
-
                         result += romanMap.get((char) bytes[i + 1]) - romanMap.get((char) bytes[i]);
                         i++;
-
                 }else{
                     result += romanMap.get((char) bytes[i]);
                 }
@@ -69,7 +70,6 @@ public class RomanNumeralConverter {
                 result += romanMap.get((char) bytes[i]);
             }
         }
-
         return result;
     }
 }
