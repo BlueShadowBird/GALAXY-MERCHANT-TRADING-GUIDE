@@ -2,8 +2,8 @@ package id.web.dedekurniawan.model;
 
 
 import id.web.dedekurniawan.exception.InformationException;
-import id.web.dedekurniawan.exception.RomanConvertException;
-import id.web.dedekurniawan.utility.RomanNumeralConverter;
+import id.web.dedekurniawan.exception.NumeralConvertionException;
+import id.web.dedekurniawan.utility.NumeralConverter;
 
 import java.util.Arrays;
 
@@ -20,14 +20,12 @@ import java.util.Arrays;
 
 public class Entity extends Informations{
     Aliases aliases;
+    NumeralConverter converter;
 
-    public Entity() {
-        super();
-    }
-
-    public Entity(Aliases aliases) {
+    public Entity(Aliases aliases, NumeralConverter converter) {
         super();
         this.aliases = aliases;
+        this.converter = converter;
     }
 
     public void setAliases(Aliases aliases) {
@@ -61,8 +59,8 @@ public class Entity extends Informations{
         }
         double totalEntities;
         try {
-            totalEntities = RomanNumeralConverter.convert(RomanSymbol.toString());
-        } catch (RomanConvertException e) {
+            totalEntities = converter.convert(RomanSymbol.toString());
+        } catch (NumeralConvertionException e) {
             throw new InformationException(e.getCause());
         }
         addInformation(entityName, totalCredits/totalEntities);
